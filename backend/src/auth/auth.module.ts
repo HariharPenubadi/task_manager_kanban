@@ -12,7 +12,7 @@ import { JwtStrategy } from './jwt.strategy';
     PassportModule,
     JwtModule.register({
       global: true,
-      secret: process.env.JWT_SECRET || 'super-secret-silicon-valley-key',
+      secret: process.env.JWT_SECRET || 'fallback_development_secret',
       signOptions: { expiresIn: '1d' },
     }),
   ],

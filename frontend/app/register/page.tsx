@@ -27,7 +27,7 @@ export default function RegisterPage() {
         method: 'POST',
         body: JSON.stringify({ name, email, password }),
       });
-      router.push('/login');
+      router.push('/login?registered=true');
     } catch (err: any) {
       setError(err.message || 'Registration failed.');
     } finally {
@@ -48,7 +48,7 @@ export default function RegisterPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
-            <span className="text-xs font-mono tracking-[0.2em] text-zinc-500 uppercase">System Initialized // v1.0</span>
+            <span className="text-xs font-mono tracking-[0.2em] text-zinc-500 uppercase">version 1.0</span>
             <h1 className="text-5xl font-light tracking-tight mt-2 leading-[1.1] text-zinc-100">
               The Next Evolution of <br />
               <span className="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-white to-zinc-500">
@@ -62,7 +62,7 @@ export default function RegisterPage() {
             transition={{ delay: 0.3, duration: 0.8 }}
             className="text-zinc-400 text-sm font-light leading-relaxed max-w-md"
           >
-            Experience lightning fast task architecture mapped onto an ultra-responsive interface[cite: 5]. Engineered for high-throughput development pipelines.
+            Lightning-fast task architecture. Zero-friction execution. The enterprise-grade Kanban engine built for fast-moving engineering teams.
           </motion.p>
         </div>
       </div>
@@ -121,7 +121,7 @@ export default function RegisterPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="h-11 bg-zinc-900/30 border-zinc-800 text-zinc-100 placeholder:text-zinc-700 focus-visible:ring-1 focus-visible:ring-zinc-500 focus-visible:ring-offset-0 transition-all rounded-none"
-                placeholder="harihar@siliconvalley.com"
+                placeholder="harihar2709@gmail.com"
               />
             </div>
 
