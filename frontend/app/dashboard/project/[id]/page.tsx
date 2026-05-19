@@ -5,9 +5,9 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  DndContext, DragOverlay, closestCorners, KeyboardSensor, PointerSensor, 
-  useSensor, useSensors, DragStartEvent, DragOverEvent, DragEndEvent, defaultDropAnimationSideEffects, useDroppable
-} from '@dnd-kit/core';
+    DndContext, DragOverlay, closestCorners, KeyboardSensor, MouseSensor, TouchSensor, 
+    useSensor, useSensors, DragStartEvent, DragOverEvent, DragEndEvent, defaultDropAnimationSideEffects, useDroppable
+  } from '@dnd-kit/core';
 import { 
   SortableContext, arrayMove, sortableKeyboardCoordinates, verticalListSortingStrategy, useSortable
 } from '@dnd-kit/sortable';
@@ -72,7 +72,13 @@ function SortableTaskCard({ task, onDelete, onEdit, isOverlay = false }: { task:
   }
 
   return (
-    <div ref={setNodeRef} style={style} className={`bg-white dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800/60 p-4 relative group w-full overflow-hidden transition-colors ${isOverlay ? 'scale-105 shadow-2xl border-zinc-400 dark:border-zinc-700 cursor-grabbing bg-zinc-100 dark:bg-zinc-900/90 z-50' : 'cursor-grab hover:border-zinc-300 dark:hover:border-zinc-700/80'}`} {...attributes} {...listeners}>
+    <div 
+      ref={setNodeRef} 
+      style={style}
+      className={`touch-none bg-white dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800/60 p-4 relative group w-full overflow-hidden transition-colors ${isOverlay ? 'scale-105 shadow-2xl border-zinc-400 dark:border-zinc-700 cursor-grabbing bg-zinc-100 dark:bg-zinc-900/90 z-50' : 'cursor-grab hover:border-zinc-300 dark:hover:border-zinc-700/80'}`} 
+      {...attributes} 
+      {...listeners}
+    >
       <div className="flex justify-between items-start gap-2">
         <div className="flex items-start gap-2 flex-1">
           <div className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${priorityColors[task.priority || 'MEDIUM']}`} />
@@ -115,7 +121,20 @@ export default function ProjectWorkspace({ params }: { params: Promise<{ id: str
   const [taskPriority, setTaskPriority] = useState<'LOW' | 'MEDIUM' | 'HIGH'>('MEDIUM');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }), useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }));
+  const sensors = useSensors(
+    useSensor(MouseSensor, {
+      activationConstraint: { distance: 5 },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 250,
+        tolerance: 5,
+      },
+    }),
+    useSensor(KeyboardSensor, { 
+      coordinateGetter: sortableKeyboardCoordinates 
+    })
+  );
 
   useEffect(() => {
     const loadData = async () => {
