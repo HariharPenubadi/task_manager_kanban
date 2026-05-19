@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request, Query } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { TaskStatus } from '@prisma/client';
+import { TaskStatus, Priority } from '@prisma/client';
 
 interface AuthenticatedRequest extends Request {
   user: { userId: string; email: string };
@@ -18,8 +18,9 @@ export class TasksController {
     @Body('projectId') projectId: string,
     @Body('title') title: string,
     @Body('description') description?: string,
+    @Body('priority') priority?: Priority,
   ) {
-    return this.tasksService.create(req.user.userId, projectId, title, description);
+    return this.tasksService.create(req.user.userId, projectId, title, description, priority);
   }
 
   @Get()
